@@ -117,33 +117,29 @@
                 <h2>Contact Guy Smiley</h2>
                 <p>Remember Guy Smiley?  Yeah, he wants to hear from you.</p>
                 <form class="text-left" data-toggle="validator" role="form">
-                    <div class="row">
-                        <div class="col-md-6">
+                    <div class="row row-eq-height">
+                        <div class="col-md-6 col-xs-12">
                             <div class="form-group">
-                                <label for="fullName" class="control-label">Full Name</label>
+                                <label for="fullName" class="col-sm-4 pull-left control-label">Full Name</label>
                                 <input type="text" class="form-control" id="fullName" placeholder="Joan Ganz Cooney" required data-error="Please provide your name">
-                                <span class="form-control-feedback" aria-hidden="true"></span>
-                                <div class="help-block with-errors"></div>
+                                <div class="col-sm-8 text-right pull-right help-block with-errors"></div>
                             </div>
                             <div class="form-group">
-                                <label for="email" class="control-label">Email</label>
+                                <label for="email" class="col-sm-4 pull-left control-label">Email</label>
                                 <input type="email" class="form-control" id="email" placeholder="jgcooney@email.arizona.edu" required data-error="Please provide a valid email address">
-                                <span class="form-control-feedback" aria-hidden="true"></span>
-                                <div class="help-block with-errors"></div>
+                                <div class="col-sm-9 text-right pull-right help-block with-errors"></div>
                             </div>
                             <div class="form-group">
-                                <label for="phone" class="control-label">Phone</label>
+                                <label for="phone" class="col-sm-3 pull-left control-label">Phone</label>
                                 <input type="tel" class="form-control" id="phone" placeholder="(215) 702-3566" data-error="A phone number isn't required, but if you would like to enter one it should be valid" pattern="(?=.*?\d{3}( |-|.)?\d{4})((?:\+?(?:1)(?:\1|\s*?))?(?:(?:\d{3}\s*?)|(?:\((?:\d{3})\)\s*?))\1?(?:\d{3})\1?(?:\d{4})(?:\s*?(?:#|(?:ext\.?))(?:\d{1,5}))?)\b">
-                                <span class="form-control-feedback" aria-hidden="true"></span>
-                                <div class="help-block with-errors"></div>
+                                <div class="col-sm-12 text-right pull-right help-block with-errors"></div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-xs-12">
                             <div class="form-group">
-                                <label for="message" class="control-label">Message</label>
+                                <label for="message" class="col-sm-4 pull-left control-label">Message</label>
                                 <textarea class="form-control" rows="9" id="message" required data-error="Please provide a message"></textarea>
-                                <span class="form-control-feedback" aria-hidden="true"></span>
-                                <div class="help-block with-errors"></div>
+                                <div class="col-sm-12 text-right help-block with-errors"></div>
                             </div>
                         </div>
                     </div>
