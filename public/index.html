@@ -116,9 +116,35 @@
             <div class="col-lg-8 col-lg-offset-2">
                 <h2>Contact Guy Smiley</h2>
                 <p>Remember Guy Smiley?  Yeah, he wants to hear from you.</p>
-                <p class="bg-primary">
-                    [[ This is where you'd put your contact form.  Get it done! ]]
-                </p>
+                <form class="text-left">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="fullName">Full Name</label>
+                                <input type="text" class="form-control" id="fullName" placeholder="Joan Ganz Cooney">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="jgcooney@email.arizona.edu">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" class="form-control" id="phone" placeholder="(215) 702-3566">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea class="form-control" rows="9" id="message"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button class="col-xs-8 col-xs-offset-2 btn btn-default btn-lg">
+                            Submit
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </section>
