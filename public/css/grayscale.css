@@ -267,6 +267,10 @@ a:hover {
     -o-background-size: cover
 }
 
+#contact .form-group {
+    margin-bottom: 21px;
+}
+
 #map {
     width: 100%;
     height: 200px;
