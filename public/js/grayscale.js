@@ -1,3 +1,17 @@
+$('form').submit(function(event) {
+    $.ajax({
+        type        : 'POST',
+        url         : '/',
+        data        : $( this ).serialize(),
+        dataType    : 'json',
+        encode      : true
+    }).done(function(data) {
+        console.log(data);
+    });
+
+    event.preventDefault();
+});
+
 function collapseNavbar() {
     if ($(".navbar").offset().top > 50) {
         $(".navbar-fixed-top").addClass("top-nav-collapse");
