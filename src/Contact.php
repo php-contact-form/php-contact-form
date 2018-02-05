@@ -48,6 +48,11 @@ class Contact
         return $value;
     }
 
+    public function sanitizeEmailValue($value)
+    {
+        filter_var($c, FILTER_SANITIZE_EMAIL);
+    }
+
     public function parseFormSubmission($data)
     {
         if (empty($data)) {

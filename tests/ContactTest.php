@@ -123,4 +123,13 @@ class ContactTests extends PHPUnit_Framework_TestCase
             $sanitizedMessage
         );
     }
+
+    public function testEmailProperlySanitized()
+    {
+        $goodEmail  = 'georgie@example.com';
+        $badEmail   = '(georgie)@example.com,';
+
+        $this->assertEquals($goodEmail, $this->contact->sanitizeEmailValue($goodEmail));
+        $this->assertEquals($goodEmail, $this->contact->sanitizeEmailValue($badEmail));
+    }
 } 
