@@ -1,8 +1,10 @@
 $('form').submit(function(event) {
+    $formData = { "formData" : $(this).serializeArray() };
+
     $.ajax({
         type        : 'POST',
         url         : '/',
-        data        : $( this ).serialize(),
+        data        : JSON.stringify($formData),
         dataType    : 'json',
         encode      : true
     }).done(function(data) {
