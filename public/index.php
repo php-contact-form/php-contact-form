@@ -8,7 +8,28 @@
             $formData = file_get_contents('php://input');
 
             $contact = new Contact();
-            var_dump(print_r($contact, true));
+
+            $parsedSubmission = $contact->parseFormSubmission($formData);
+
+            $out = [];
+
+            if ("string" === gettype($parsedSubmission)) {
+                $out['status']  = 'error';
+                $out['message'] = $parsedSubmission;
+            } else if ("array" === gettype($parsedSubmission)) {
+                // valid
+                $submittedContactId = $contact->getDatabase()->insertData('contacts', $parsedSubmission);
+
+                // success
+
+                // @TODO
+                // $contact->sendEmail($submittedContactId, $parsedSubmission);
+
+                $out['status']  = 'success';
+                $out['message'] = 'Thank you for you contact!';
+            }
+
+            print_r($out);
         }
     } else {
 ?>
