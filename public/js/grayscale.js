@@ -5,16 +5,15 @@ $('form').submit(function(event) {
         type        : 'POST',
         url         : '/',
         data        : JSON.stringify($formData),
-        dataType    : 'json',
         encode      : true,
         success     : function(data) {
             if ('success' === data.status) {
                 $("#contact form").slideUp();
                 $("#contact p").text(data.message);
-            } else if ('error' === data.status) {
+            } else if ('error' == data.status) {
                 alert(data.message);
             } else {
-                alert(data.message);
+                alert('We were unable to send your contact -- please try again soon!');
             }
         },
         fail        : function() {
