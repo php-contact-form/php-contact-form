@@ -22,8 +22,7 @@
 
                 // success
 
-                // @TODO
-                // $contact->sendEmail($submittedContactId, $parsedSubmission);
+                $contact->sendEmail($submittedContactId, $parsedSubmission);
 
                 $out['status']  = 'success';
                 $out['message'] = 'Thank you for you contact!';
