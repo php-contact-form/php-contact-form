@@ -16,33 +16,29 @@ class ContactTests extends PHPUnit_Framework_TestCase
         $this->contact = NULL;
     }
  
-    public function testValidationErrorsInitedAsEmptyArray()
+    public function testValidationErrorsInitedAsBoolFalse()
     {
-        $validationErrors = $this->contact->getValidationErrors();
+        $validationError = $this->contact->hasValidationError();
 
-        $this->assertEquals($validationErrors, []);
-        $this->assertEmpty($validationErrors);
+        $this->assertFalse($validationError);
     }
 
     public function testNullFieldValueIsProperlyValidated()
     {
         $this->contact->validateField('name', 'NotNull', '');
 
-        $validationErrors = $this->contact->getValidationErrors();
+        $validationError = $this->contact->hasValidationError();
 
-        $this->assertNotEmpty($validationErrors);
-        $this->assertCount(1, $validationErrors);
-        $this->assertArrayHasKey('name', $validationErrors);
-        $this->assertEquals($validationErrors['name'], 'NotNull');
+        $this->assertTrue($validationError);
     }
 
     public function testNotNullFieldValueIsProperlyValidated()
     {
         $this->contact->validateField('name', 'NotNull', 'George');
 
-        $validationErrors = $this->contact->getValidationErrors();
+        $validationError = $this->contact->hasValidationError();
 
-        $this->assertEmpty($validationErrors);
+        $this->assertFalse($validationError);
     }
 
     public function testDatabaseConnectionIsInstantiated()
@@ -97,7 +93,7 @@ class ContactTests extends PHPUnit_Framework_TestCase
             ]
         ]);
         $response = $this->contact->parseFormSubmission($validJsonSubmission);
-        $this->assertEmpty($this->contact->getValidationErrors());
+        $this->assertFalse($this->contact->hasValidationError());
     }
 
     public function testFormDataProperlySanitized()

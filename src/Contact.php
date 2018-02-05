@@ -4,7 +4,7 @@ include dirname(__FILE__) . '/../src/Db.php';
 
 class Contact
 {
-    private $validationErrors = [];
+    private $validationError = false;
     private $databaseConnection = NULL;
 
     public function __construct()
@@ -47,6 +47,40 @@ class Contact
         return $out;
     }
 
+    public function parseFormSubmission($data)
+    {
+        if (empty($data)) {
+            return false;
+        }
+
+        $formData = json_decode($data);
+
+        if (NULL === json_decode($data)) {
+            return false;
+        }
+
+        foreach ($formData as $obj) {
+            $this->validateField($obj->name, 'NotNull', $obj->value);
+        }
+
+        if (!$this->hasValidationError()) {
+            $out = [];
+
+            foreach ($formData as $obj) {
+                $out[$obj->name] = $obj->value;
+            }
+
+            return $out;
+        }
+
+        return false;
+    }
+
+    private function saveFormSubmission($data)
+    {
+        return $this->getDatabase()->insertData('contacts', $data);
+    }
+
     private function sendContactFormEmail($id)
     {
         $data = $this->getDatabase()->getContact($id);
@@ -61,11 +95,6 @@ class Contact
         return false;
     }
 
-    private function saveFormSubmission($data)
-    {
-        return $this->getDatabase()->insertData('contacts', $data);
-    }
-    
     public function sendEmail($parsedSubmission)
     {
         // The Business
@@ -102,35 +131,6 @@ class Contact
         return filter_var($value, FILTER_SANITIZE_EMAIL);
     }
 
-    public function parseFormSubmission($data)
-    {
-        if (empty($data)) {
-            return false;
-        }
-
-        $formData = json_decode($data);
-
-        if (NULL === json_decode($data)) {
-            return false;
-        }
-
-        foreach ($formData as $obj) {
-            $this->validateField($obj->name, 'NotNull', $obj->value);
-        }
-
-        if (empty($this->getValidationErrors())) {
-            $out = [];
-
-            foreach ($formData as $obj) {
-                $out[$obj->name] = $obj->value;
-            }
-
-            return $out;
-        }
-
-        return false;
-    }
-
     public function getDatabase()
     {
         return $this->databaseConnection;
@@ -143,18 +143,19 @@ class Contact
         $validationMethod = 'validate' . $condition;
 
         if (true !== $this->$validationMethod($fieldValue)) {
-            $this->setValidationErrorOnField($fieldName, $condition);
+            $this->addValidationError();
+            return;
         }
     }
 
-    public function getValidationErrors()
+    public function addValidationError()
     {
-        return $this->validationErrors;
+        $this->validationError = true;
     }
 
-    private function setValidationErrorOnField($fieldName, $condition)
+    public function hasValidationError()
     {
-        $this->validationErrors[$fieldName] = $condition;
+        return $this->validationError;
     }
 
     private function validateNotNull($value)
