@@ -124,24 +124,24 @@
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="fullName" class="col-sm-4 pull-left control-label">Full Name</label>
-                                <input type="text" class="form-control" id="fullName" placeholder="Joan Ganz Cooney" required data-error="Please provide your name">
+                                <input type="text" class="form-control" name="fullName" placeholder="Joan Ganz Cooney" required data-error="Please provide your name">
                                 <div class="col-sm-8 text-right pull-right help-block with-errors"></div>
                             </div>
                             <div class="form-group">
                                 <label for="email" class="col-sm-4 pull-left control-label">Email</label>
-                                <input type="email" class="form-control" id="email" placeholder="jgcooney@email.arizona.edu" required data-error="Please provide a valid email">
+                                <input type="email" class="form-control" name="email" placeholder="jgcooney@email.arizona.edu" required data-error="Please provide a valid email">
                                 <div class="col-sm-9 text-right pull-right help-block with-errors"></div>
                             </div>
                             <div class="form-group">
                                 <label for="phone" class="col-sm-3 pull-left control-label">Phone</label>
-                                <input type="tel" class="form-control" id="phone" placeholder="(215) 702-3566" data-error="Please provide a valid phone number" pattern="(?=.*?\d{3}( |-|.)?\d{4})((?:\+?(?:1)(?:\1|\s*?))?(?:(?:\d{3}\s*?)|(?:\((?:\d{3})\)\s*?))\1?(?:\d{3})\1?(?:\d{4})(?:\s*?(?:#|(?:ext\.?))(?:\d{1,5}))?)\b">
+                                <input type="tel" class="form-control" name="phone" placeholder="(215) 702-3566" data-error="Please provide a valid phone number" pattern="(?=.*?\d{3}( |-|.)?\d{4})((?:\+?(?:1)(?:\1|\s*?))?(?:(?:\d{3}\s*?)|(?:\((?:\d{3})\)\s*?))\1?(?:\d{3})\1?(?:\d{4})(?:\s*?(?:#|(?:ext\.?))(?:\d{1,5}))?)\b">
                                 <div class="col-sm-12 text-right pull-right help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="message" class="col-sm-4 pull-left control-label">Message</label>
-                                <textarea class="form-control" rows="9" id="message" required data-error="Please provide a message"></textarea>
+                                <textarea class="form-control" rows="9" name="message" required data-error="Please provide a message"></textarea>
                                 <div class="col-sm-12 text-right help-block with-errors"></div>
                             </div>
                         </div>
@@ -182,7 +182,7 @@
     <script src="vendor/validator/validator.min.js"></script>
 
     <!-- Theme JavaScript -->
-    <script src="js/grayscale.min.js"></script>
+    <script src="js/grayscale.js"></script>
 
 </body>
 
