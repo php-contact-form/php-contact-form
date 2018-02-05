@@ -136,8 +136,8 @@
                     <div class="row row-eq-height">
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <label for="fullName" class="col-sm-4 pull-left control-label">Full Name</label>
-                                <input type="text" class="form-control" name="fullName" placeholder="Joan Ganz Cooney" required data-error="Please provide your name">
+                                <label for="name" class="col-sm-4 pull-left control-label">Full Name</label>
+                                <input type="text" class="form-control" name="name" placeholder="Joan Ganz Cooney" required data-error="Please provide your name">
                                 <div class="col-sm-8 text-right pull-right help-block with-errors"></div>
                             </div>
                             <div class="form-group">
