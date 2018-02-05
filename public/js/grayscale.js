@@ -6,9 +6,14 @@ $('form').submit(function(event) {
         url         : '/',
         data        : JSON.stringify($formData),
         dataType    : 'json',
-        encode      : true
-    }).done(function(data) {
-        console.log(data);
+        encode      : true,
+        success     : function(data) {
+            console.log(data);
+        },
+        fail        : function() {
+            // Submission failed
+            console.log('failure');
+        }
     });
 
     event.preventDefault();

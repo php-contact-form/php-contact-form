@@ -29,7 +29,7 @@
                 $out['message'] = 'Thank you for you contact!';
             }
 
-            print_r($out);
+            print_r(json_encode($out));
         }
     } else {
 ?>
