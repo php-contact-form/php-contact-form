@@ -54,11 +54,11 @@ class ContactTests extends PHPUnit_Framework_TestCase
     {
         $emptyInput = '';
         $response = $this->contact->parseFormSubmission($emptyInput);
-        $this->assertEquals($response, "Invalid submission; please try again");
+        $this->assertFalse($response);
 
         $nonJsonInput = 'Not even JSON';
         $response = $this->contact->parseFormSubmission($nonJsonInput);
-        $this->assertEquals($response, "Invalid submission; please try again");
+        $this->assertFalse($response);
     }
 
     public function testMissingFormDataReturnsErrorMessage()
@@ -78,7 +78,7 @@ class ContactTests extends PHPUnit_Framework_TestCase
         ]);
 
         $response = $this->contact->parseFormSubmission($validJsonButInvalidFieldValue);
-        $this->assertEquals($response, "Invalid submission; please try again");
+        $this->assertFalse($response);
     }
 
     public function testGoodFormInputReturnsParsedJSON()

@@ -26,15 +26,13 @@ class Contact
 
         $validatedSubmission = $this->parseFormSubmission($formData);
 
-        if ("array" === gettype($validatedSubmission)) {
+        if ($validatedSubmission) {
             // validated
             $formSubmissionID = $this->saveFormSubmission($validatedSubmission);
 
             if ($formSubmissionID) {
                 // saved
                 if ($this->sendContactFormEmail($formSubmissionID)) {
-                    return 'sent';
-
                     // sent
                     $out['status']  = 'success';
                     $out['message'] = 'Thank you for you contact!';
@@ -107,13 +105,13 @@ class Contact
     public function parseFormSubmission($data)
     {
         if (empty($data)) {
-            return "Invalid submission; please try again";
+            return false;
         }
 
         $formData = json_decode($data);
 
         if (NULL === json_decode($data)) {
-            return "Invalid submission; please try again";
+            return false;
         }
 
         foreach ($formData as $obj) {
@@ -130,7 +128,7 @@ class Contact
             return $out;
         }
 
-        return "Invalid submission; please try again";
+        return false;
     }
 
     public function getDatabase()
