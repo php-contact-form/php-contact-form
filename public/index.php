@@ -2,7 +2,13 @@
     /* AJAX check  */
     if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
         if(isset($_POST)) {
-            print_r($_POST);
+            require dirname(__FILE__) . '/../src/Contact.php';
+
+            // Don't get this from $_POST because JSON
+            $formData = file_get_contents('php://input');
+
+            $contact = new Contact();
+            var_dump(print_r($contact, true));
         }
     } else {
 ?>

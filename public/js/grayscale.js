@@ -1,5 +1,5 @@
 $('form').submit(function(event) {
-    $formData = { "formData" : $(this).serializeArray() };
+    $formData = $(this).serializeArray();
 
     $.ajax({
         type        : 'POST',

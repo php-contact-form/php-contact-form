@@ -1,11 +1,13 @@
 <?php
 
+include dirname(__FILE__) . '/../src/Db.php';
+
 class Contact
 {
     private $validationErrors = [];
     private $databaseConnection = NULL;
 
-    public function __construct($formFields = [])
+    public function __construct()
     {
         $databaseCredentials = [
             'host'      => 'localhost',
