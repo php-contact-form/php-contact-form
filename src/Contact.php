@@ -24,6 +24,25 @@ class Contact
         return file_get_contents('public/index.php');
     }
 
+    public function sendEmail($contactID, $parsedSubmission)
+    {
+        // sanitize form values
+        $out = [];
+
+        foreach ($parsedSubmission as $field) {
+            if ('email' !== $field->name) {
+                // email is the only field with special chars
+            } else {
+                $out[] = $this->sanitizeField($field);
+            }
+        }
+    }
+
+    public function sanitizeField($field)
+    {
+        return [$field->name => htmlspecialchars(striptags($field->value))];
+    }
+
     public function parseFormSubmission($data)
     {
         if (empty($data)) {

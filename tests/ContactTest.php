@@ -105,4 +105,8 @@ class ContactTests extends PHPUnit_Framework_TestCase
         $response = $this->contact->parseFormSubmission($validJsonSubmission);
         $this->assertEmpty($this->contact->getValidationErrors());
     }
+
+    public function testEmailDataProperlySanitized()
+    {
+    }
 } 
