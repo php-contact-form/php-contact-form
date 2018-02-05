@@ -34,11 +34,23 @@ class Db
 
     public function insertData($tableName, $formData)
     {
-        $query = sprintf(
-            'INSERT INTO %s (%s) VALUES (%s)',
-            $this->getColumnNames($formData),
-            $this->getFieldValues($formData)
+        $result = $this->connection->query(
+            $this->getInsertQuery($tableName, $formData)
         );
+
+        return $result;
+    }
+
+    public function getInsertQuery($tableName, $formData)
+    {
+        $query = sprintf(
+            'INSERT INTO %s (%s) VALUES (\'%s\');',
+            $tableName,
+            implode(', ', $this->getColumnNames($formData)),
+            implode('\', \'', $this->getValues($formData))
+        );
+
+        return $query;
     }
 
     public function getColumnNames($data)
@@ -47,6 +59,15 @@ class Db
 
         foreach ($data as $key => $value) {
             $out[] = $key;
+        }
+
+        return $out;
+    }
+
+    public function getValues($data)
+    {
+        foreach ($data as $key => $value) {
+            $out[] = $value;
         }
 
         return $out;

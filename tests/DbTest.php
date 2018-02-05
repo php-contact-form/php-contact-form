@@ -23,7 +23,13 @@ class DbTests extends PHPUnit_Framework_TestCase
             'database'  => 'dealerinspire'
         ]
     ;
- 
+
+    private $testingData = [
+            'column_1' => 'value_1',
+            'column_2' => 'value_2',
+            'column_3' => 'value_3'
+    ];
+
     protected function setUp()
     {
         $this->db = new Db($this->validCreds);
@@ -57,16 +63,27 @@ class DbTests extends PHPUnit_Framework_TestCase
 
     public function testCanDetermineCorrectColumnNames()
     {
-        $testingData = json_decode(json_encode([
-            'column_1' => 'value_1',
-            'column_2' => 'value_2',
-            'column_3' => 'value_3'
-        ]));
-
-        $columnNames = $this->db->getColumnNames($testingData);
+        $columnNames = $this->db->getColumnNames((object) $this->testingData);
 
         $this->assertEquals($columnNames[0], 'column_1');
         $this->assertEquals($columnNames[1], 'column_2');
         $this->assertEquals($columnNames[2], 'column_3');
+    }
+
+    public function testCanDetermineCorrectDataValues()
+    {
+        $values = $this->db->getValues((object) $this->testingData);
+
+        $this->assertEquals($values[0], 'value_1');
+        $this->assertEquals($values[1], 'value_2');
+        $this->assertEquals($values[2], 'value_3');
+    }
+
+    public function testGetInsertQueryComposesCorrectString()
+    {
+        $query = $this->db->getInsertQuery('tablename', (object) $this->testingData);
+        $expected = "INSERT INTO tablename (column_1, column_2, column_3) VALUES ('value_1', 'value_2', 'value_3');";
+
+        $this->assertEquals($query, $expected);
     }
 }
