@@ -98,7 +98,7 @@ class Contact
     public function sendEmail($parsedSubmission)
     {
         // The Business
-        $to = 'ceili@ceilicornelison.com';
+        $to = 'guy-smiley@example.com';
         $subject = "New contact form submission!";
         $headers = sprintf(
             "From: %s <%s>\r\n",
