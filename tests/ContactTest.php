@@ -132,4 +132,25 @@ class ContactTests extends PHPUnit_Framework_TestCase
         $this->assertEquals($goodEmail, $this->contact->sanitizeEmailValue($goodEmail));
         $this->assertEquals($goodEmail, $this->contact->sanitizeEmailValue($badEmail));
     }
+
+    public function testEmailShouldReturnStatus()
+    {
+        $goodSubmission = json_encode([
+            [
+                'name'  => 'name',
+                'value' => 'Georgie'
+            ],
+            [
+                'name'  => 'email',
+                'value' => 'georgie@example.com'
+            ],
+            [   'name'  => 'message',
+                'value' => 'Hey there!'
+            ]
+        ]);
+
+        $parsedSubmission = $this->contact->parseFormSubmission($goodSubmission);
+
+        $this->assertTrue($this->contact->sendEmail(1, $parsedSubmission));
+    }
 } 

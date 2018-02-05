@@ -29,13 +29,32 @@ class Contact
         // sanitize form values
         $out = [];
 
-        foreach ($parsedSubmission as $field) {
-            if ('email' !== $field->name) {
-                // email is the only field with special chars
+        foreach ($parsedSubmission as $key => $value) {
+            if ('email' === $key) {
+                // Special email filter
+                $out['email'] = $this->sanitizeEmailValue($value);
             } else {
-                $out[] = $this->sanitizeField($field);
+                $out[$key] = $this->sanitizeFieldValue($value);
             }
         }
+
+        // The Business
+        $to = 'ceili@ceilicornelison.com';
+        $subject = "New contact form submission!";
+        $headers = sprintf(
+            "From: %s <%s>\r\n",
+            $out['name'],
+            $out['email']
+        );
+
+        $messageBody = "New contact form submission!\r\n";
+
+        foreach($out as $key => $value) {
+            $messageBody .= sprintf("%s: %s\r\n", $key, $value);
+        }
+
+        // If email has been process for sending, display a success message
+        return mail($to, $subject, $messageBody, $headers);
     }
 
     public function sanitizeFieldValue($value)
@@ -50,7 +69,7 @@ class Contact
 
     public function sanitizeEmailValue($value)
     {
-        filter_var($c, FILTER_SANITIZE_EMAIL);
+        return filter_var($value, FILTER_SANITIZE_EMAIL);
     }
 
     public function parseFormSubmission($data)
