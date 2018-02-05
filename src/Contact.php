@@ -38,9 +38,14 @@ class Contact
         }
     }
 
-    public function sanitizeField($field)
+    public function sanitizeFieldValue($value)
     {
-        return [$field->name => htmlspecialchars(striptags($field->value))];
+        $value  = stripslashes($value);
+        $value  = htmlentities($value);
+        $value  = strip_tags($value);
+        $value  = $this->databaseConnection->escapeString($value);
+
+        return $value;
     }
 
     public function parseFormSubmission($data)

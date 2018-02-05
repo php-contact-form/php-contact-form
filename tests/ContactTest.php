@@ -106,7 +106,21 @@ class ContactTests extends PHPUnit_Framework_TestCase
         $this->assertEmpty($this->contact->getValidationErrors());
     }
 
-    public function testEmailDataProperlySanitized()
+    public function testFormDataProperlySanitized()
     {
+        $emailValue = new stdClass;
+        $emailValue->value  = 'georgie@example.com';
+        $sanitizedEmail = $this->contact->sanitizeFieldValue($emailValue->value);
+
+        $this->assertEquals('georgie@example.com', $sanitizedEmail);
+
+        $messageValue = new stdClass;
+        $messageValue->value  = 'It\'s a "Message" contaning spècial çhars!';
+        $sanitizedMessage = $this->contact->sanitizeFieldValue($messageValue->value);
+
+        $this->assertEquals(
+            "It\'s a &quot;Message&quot; contaning sp&egrave;cial &ccedil;hars!",
+            $sanitizedMessage
+        );
     }
 } 
