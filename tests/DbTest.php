@@ -58,7 +58,7 @@ class DbTests extends PHPUnit_Framework_TestCase
     {
         $db = new Db($this->validCreds);
 
-        $this->assertTrue($db->createDatabaseConnection());
+        $this->assertObjectHasAttribute('field_count', $db->createDatabaseConnection());
     }
 
     public function testCanDetermineCorrectColumnNames()
@@ -85,5 +85,20 @@ class DbTests extends PHPUnit_Framework_TestCase
         $expected = "INSERT INTO tablename (column_1, column_2, column_3) VALUES ('value_1', 'value_2', 'value_3');";
 
         $this->assertEquals($query, $expected);
+    }
+
+    public function testValidDataCanBeSuccessfullyInserted()
+    {
+        $validData = [
+            'name'              => 'Georgie',
+            'email'             => 'georgie@email.com',
+            'message'           => 'This is a message!',
+            'email_sent_to'     => 'guy-smiley@example.com',
+            'email_sent_status' => 'sent'
+        ];
+
+        $result = $this->db->insertData('contacts', (object) $validData);
+
+        $this->assertGreaterThan(0, $result);
     }
 }

@@ -18,7 +18,7 @@ class Db
         }
 
         try {
-            $this->connection = new mysqli(
+            $connection = new mysqli(
                 $this->credentials['host'],
                 $this->credentials['username'],
                 $this->credentials['password'],
@@ -29,7 +29,7 @@ class Db
             return false;
         }
 
-        return true;
+        return $connection;
     }
 
     public function insertData($tableName, $formData)
@@ -38,7 +38,7 @@ class Db
             $this->getInsertQuery($tableName, $formData)
         );
 
-        return $result;
+        return $this->connection->insert_id;
     }
 
     public function getInsertQuery($tableName, $formData)
