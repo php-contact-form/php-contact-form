@@ -8,11 +8,18 @@ $('form').submit(function(event) {
         dataType    : 'json',
         encode      : true,
         success     : function(data) {
-            console.log(data);
+            if ('success' === data.status) {
+                $("#contact form").slideUp();
+                $("#contact p").text(data.message);
+            } else if ('error' === data.status) {
+                alert(data.message);
+            } else {
+                alert(data.message);
+            }
         },
         fail        : function() {
             // Submission failed
-            console.log('failure');
+            alert('We were unable to send your contact -- please try again soon!');
         }
     });
 
