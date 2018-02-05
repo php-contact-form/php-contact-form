@@ -5,7 +5,7 @@ class Contact
     private $validationErrors = [];
     private $databaseConnection = NULL;
 
-    public function __construct()
+    public function __construct($formFields = [])
     {
         $databaseCredentials = [
             'host'      => 'localhost',
@@ -22,6 +22,29 @@ class Contact
         return file_get_contents('public/index.php');
     }
 
+    public function parseFormSubmission($data)
+    {
+        if (empty($data)) {
+            return "Invalid submission; please try again";
+        }
+
+        $formData = json_decode($data);
+
+        if (NULL === json_decode($data)) {
+            return "Invalid submission; please try again";
+        }
+
+        foreach ($formData as $key => $value) {
+            $this->validateField($key, 'NotNull', $value);
+        }
+
+        if (empty($this->getValidationErrors())) {
+            return $formData;
+        }
+
+        return "Invalid submission; please try again";
+    }
+
     public function getDatabase()
     {
         return $this->databaseConnection;
@@ -29,7 +52,7 @@ class Contact
 
     // Only current validation condition is not null
     // as per project requirements
-    public function validateField($condition = 'NotNull', $fieldName, $fieldValue = '')
+    public function validateField($fieldName, $condition = 'NotNull', $fieldValue = '')
     {
         $validationMethod = 'validate' . $condition;
 

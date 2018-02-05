@@ -32,7 +32,7 @@ class ContactTests extends PHPUnit_Framework_TestCase
 
     public function testNullFieldValueIsProperlyValidated()
     {
-        $this->contact->validateField('NotNull', 'name', '');
+        $this->contact->validateField('name', 'NotNull', '');
 
         $validationErrors = $this->contact->getValidationErrors();
 
@@ -44,7 +44,7 @@ class ContactTests extends PHPUnit_Framework_TestCase
 
     public function testNotNullFieldValueIsProperlyValidated()
     {
-        $this->contact->validateField('NotNull', 'name', 'George');
+        $this->contact->validateField('name', 'NotNull', 'George');
 
         $validationErrors = $this->contact->getValidationErrors();
 
@@ -54,5 +54,38 @@ class ContactTests extends PHPUnit_Framework_TestCase
     public function testDatabaseConnectionIsInstantiated()
     {
         $this->assertInstanceOf('Db', $this->contact->getDatabase());
+    }
+
+    public function testInvalidFormDataReturnsErrorMessage()
+    {
+        $emptyInput = '';
+        $response = $this->contact->parseFormSubmission($emptyInput);
+        $this->assertEquals($response, "Invalid submission; please try again");
+
+        $nonJsonInput = 'Not even JSON';
+        $response = $this->contact->parseFormSubmission($nonJsonInput);
+        $this->assertEquals($response, "Invalid submission; please try again");
+    }
+
+    public function testMissingFormDataReturnsErrorMessage()
+    {
+        $validJsonButInvalidFieldValue = json_encode([
+            'name'      => 'Georgie',
+            'email'     => 'georgie@example.com',
+            'message'   => ''
+        ]);
+        $response = $this->contact->parseFormSubmission($validJsonButInvalidFieldValue);
+        $this->assertEquals($response, "Invalid submission; please try again");
+    }
+
+    public function testGoodFormInputReturnsParsedJSON()
+    {
+        $validJsonSubmission = json_encode([
+            'name'      => 'Georgie',
+            'email'     => 'georgie@example.com',
+            'message'   => 'Hey there!'
+        ]);
+        $response = $this->contact->parseFormSubmission($validJsonSubmission);
+        $this->assertEmpty($this->contact->getValidationErrors());
     }
 } 
