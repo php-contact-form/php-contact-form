@@ -60,13 +60,13 @@ class Contact
         $subject = "New contact form submission!";
         $headers = sprintf(
             "From: %s <%s>\r\n",
-            $out['name'],
-            $out['email']
+            $parsedSubmission['name'],
+            $parsedSubmission['email']
         );
 
         $messageBody = "New contact form submission!\r\n";
 
-        foreach($out as $key => $value) {
+        foreach($parsedSubmission as $key => $value) {
             $messageBody .= sprintf("%s: %s\r\n", $key, $value);
         }
 
