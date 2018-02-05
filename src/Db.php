@@ -32,6 +32,11 @@ class Db
         return $connection;
     }
 
+    public function getContact($id)
+    {
+        // @TODO
+    }
+
     public function updateContactEmailStatus($submittedContactId, $status)
     {
         $query = sprintf(

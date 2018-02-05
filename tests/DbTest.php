@@ -99,4 +99,11 @@ class DbTests extends PHPUnit_Framework_TestCase
 
         $this->assertGreaterThan(0, $result);
     }
+
+    public function testContactCanBeGotten()
+    {
+        $this->markTestIncomplete(
+            'Implement tests on getContact() implementation'
+        );
+    }
 }

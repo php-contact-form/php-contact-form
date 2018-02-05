@@ -9,6 +9,7 @@ class Contact
 
     public function __construct()
     {
+        // PUT YOUR DB CREDS HERE
         $databaseCredentials = [
             'host'      => 'localhost',
             'username'  => 'dealerinspire',
@@ -21,33 +22,52 @@ class Contact
 
     public function saveContact($formData)
     {
-        $parsedSubmission = $this->parseFormSubmission($formData);
-
         $out = [];
 
-        if ("string" === gettype($parsedSubmission)) {
-            $out['status']  = 'error';
-            $out['message'] = $parsedSubmission;
-        } else if ("array" === gettype($parsedSubmission)) {
-            // valid
-            $submittedContactId = $this->getDatabase()->insertData('contacts', $parsedSubmission);
+        $validatedSubmission = $this->parseFormSubmission($formData);
 
-            // success
-            if ($this->sendEmail($parsedSubmission)) {
-                $this->getDatabase()->updateContactEmailStatus($submittedContactId, 'success');
-                $out['status']  = 'success';
-                $out['message'] = 'Thank you for you contact!';
-            } else {
-                // Email could not be sent
-                $this->getDatabase()->updateContactEmailStatus($submittedContactId, 'failed');
-                $out['status']  = 'error';
-                $out['message'] = $parsedSubmission;
+        if ("array" === gettype($validatedSubmission)) {
+            // validated
+            $formSubmissionID = $this->saveFormSubmission($validatedSubmission);
+
+            if ($formSubmissionID) {
+                // saved
+                if ($this->sendContactFormEmail($formSubmissionID)) {
+                    return 'sent';
+
+                    // sent
+                    $out['status']  = 'success';
+                    $out['message'] = 'Thank you for you contact!';
+
+                    return $out;
+                }
             }
         }
 
+        $out['status']  = 'error';
+        $out['message'] = 'We were unable to send your contact -- please try again soon!';
         return $out;
     }
 
+    private function sendContactFormEmail($id)
+    {
+        $data = $this->getDatabase()->getContact($id);
+
+        if ($this->sendEmail($data)) {
+            $this->getDatabase()->updateContactEmailStatus($id, 'success');
+            return true;
+        }
+        
+        // Email could not be sent
+        $this->getDatabase()->updateContactEmailStatus($submittedContactId, 'failed');
+        return false;
+    }
+
+    private function saveFormSubmission($data)
+    {
+        return $this->getDatabase()->insertData('contacts', $data);
+    }
+    
     public function sendEmail($parsedSubmission)
     {
         // The Business
