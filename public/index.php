@@ -134,7 +134,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="phone" class="col-sm-3 pull-left control-label">Phone</label>
-                                <input type="tel" class="form-control" id="phone" placeholder="(215) 702-3566" data-error="A phone number isn't required, but if you would like to enter one it should be valid" pattern="(?=.*?\d{3}( |-|.)?\d{4})((?:\+?(?:1)(?:\1|\s*?))?(?:(?:\d{3}\s*?)|(?:\((?:\d{3})\)\s*?))\1?(?:\d{3})\1?(?:\d{4})(?:\s*?(?:#|(?:ext\.?))(?:\d{1,5}))?)\b">
+                                <input type="tel" class="form-control" id="phone" placeholder="(215) 702-3566" data-error="Please provide a valid phone number" pattern="(?=.*?\d{3}( |-|.)?\d{4})((?:\+?(?:1)(?:\1|\s*?))?(?:(?:\d{3}\s*?)|(?:\((?:\d{3})\)\s*?))\1?(?:\d{3})\1?(?:\d{4})(?:\s*?(?:#|(?:ext\.?))(?:\d{1,5}))?)\b">
                                 <div class="col-sm-12 text-right pull-right help-block with-errors"></div>
                             </div>
                         </div>
