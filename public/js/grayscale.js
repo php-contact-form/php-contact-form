@@ -7,7 +7,8 @@ $('form').submit(function(event) {
         data        : JSON.stringify($formData),
         encode      : true,
         success     : function(data) {
-            if ('success' === data.status) {
+            data = JSON.parse(data);
+            if ('success' == data.status) {
                 $("#contact form").slideUp();
                 $("#contact p").text(data.message);
             } else if ('error' == data.status) {
