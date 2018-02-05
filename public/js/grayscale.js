@@ -1,3 +1,31 @@
+$('form').submit(function(event) {
+    $formData = $(this).serializeArray();
+
+    $.ajax({
+        type        : 'POST',
+        url         : '/',
+        data        : JSON.stringify($formData),
+        dataType    : 'json',
+        encode      : true,
+        success     : function(data) {
+            if ('success' === data.status) {
+                $("#contact form").slideUp();
+                $("#contact p").text(data.message);
+            } else if ('error' === data.status) {
+                alert(data.message);
+            } else {
+                alert(data.message);
+            }
+        },
+        fail        : function() {
+            // Submission failed
+            alert('We were unable to send your contact -- please try again soon!');
+        }
+    });
+
+    event.preventDefault();
+});
+
 function collapseNavbar() {
     if ($(".navbar").offset().top > 50) {
         $(".navbar-fixed-top").addClass("top-nav-collapse");

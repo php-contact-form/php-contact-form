@@ -1,11 +1,13 @@
 <?php
 
+include dirname(__FILE__) . '/../src/Db.php';
+
 class Contact
 {
     private $validationErrors = [];
     private $databaseConnection = NULL;
 
-    public function __construct($formFields = [])
+    public function __construct()
     {
         $databaseCredentials = [
             'host'      => 'localhost',
@@ -34,12 +36,18 @@ class Contact
             return "Invalid submission; please try again";
         }
 
-        foreach ($formData as $key => $value) {
-            $this->validateField($key, 'NotNull', $value);
+        foreach ($formData as $obj) {
+            $this->validateField($obj->name, 'NotNull', $obj->value);
         }
 
         if (empty($this->getValidationErrors())) {
-            return $formData;
+            $out = [];
+
+            foreach ($formData as $obj) {
+                $out[$obj->name] = $obj->value;
+            }
+
+            return $out;
         }
 
         return "Invalid submission; please try again";
