@@ -16,12 +16,6 @@ class ContactTests extends PHPUnit_Framework_TestCase
         $this->contact = NULL;
     }
  
-    public function testRender()
-    {
-        $result = $this->contact->render();
-        $this->assertContains('Contact Guy Smiley', $result);
-    }
-
     public function testValidationErrorsInitedAsEmptyArray()
     {
         $validationErrors = $this->contact->getValidationErrors();

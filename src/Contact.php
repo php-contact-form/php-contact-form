@@ -48,11 +48,6 @@ class Contact
         return $out;
     }
 
-    public function render()
-    {
-        return file_get_contents('public/index.php');
-    }
-
     public function sendEmail($parsedSubmission)
     {
         // The Business
