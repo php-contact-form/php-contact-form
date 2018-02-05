@@ -19,9 +19,74 @@ class Contact
         $this->databaseConnection = new Db($databaseCredentials);
     }
 
+    public function saveContact($formData)
+    {
+        $parsedSubmission = $this->parseFormSubmission($formData);
+
+        $out = [];
+
+        if ("string" === gettype($parsedSubmission)) {
+            $out['status']  = 'error';
+            $out['message'] = $parsedSubmission;
+        } else if ("array" === gettype($parsedSubmission)) {
+            // valid
+            $submittedContactId = $this->getDatabase()->insertData('contacts', $parsedSubmission);
+
+            // success
+            if ($this->sendEmail($parsedSubmission)) {
+                $this->getDatabase()->updateContactEmailStatus($submittedContactId, 'success');
+                $out['status']  = 'success';
+                $out['message'] = 'Thank you for you contact!';
+            } else {
+                // Email could not be sent
+                $this->getDatabase()->updateContactEmailStatus($submittedContactId, 'failed');
+                $out['status']  = 'error';
+                $out['message'] = $parsedSubmission;
+            }
+        }
+
+        return $out;
+    }
+
     public function render()
     {
         return file_get_contents('public/index.php');
+    }
+
+    public function sendEmail($parsedSubmission)
+    {
+        // The Business
+        $to = 'ceili@ceilicornelison.com';
+        $subject = "New contact form submission!";
+        $headers = sprintf(
+            "From: %s <%s>\r\n",
+            $out['name'],
+            $out['email']
+        );
+
+        $messageBody = "New contact form submission!\r\n";
+
+        foreach($out as $key => $value) {
+            $messageBody .= sprintf("%s: %s\r\n", $key, $value);
+        }
+
+        // If email has been process for sending, display a success message
+        return mail($to, $subject, $messageBody, $headers);
+    }
+
+    public function sanitizeFieldValue($value)
+    {
+        $value  = stripslashes($value);
+        $value  = htmlentities($value);
+        $value  = strip_tags($value);
+        $value  = $this->databaseConnection->escapeString($value);
+
+        return $value;
+    }
+
+    public function sanitizeEmailValue($value)
+    {
+        return filter_var($value, FILTER_SANITIZE_EMAIL);
     }
 
     public function parseFormSubmission($data)
