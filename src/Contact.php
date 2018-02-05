@@ -33,11 +33,16 @@ class Contact
             $submittedContactId = $this->getDatabase()->insertData('contacts', $parsedSubmission);
 
             // success
-
-            $this->sendEmail($submittedContactId, $parsedSubmission);
-
-            $out['status']  = 'success';
-            $out['message'] = 'Thank you for you contact!';
+            if ($this->sendEmail($parsedSubmission)) {
+                $this->getDatabase()->updateContactEmailStatus($submittedContactId, 'success');
+                $out['status']  = 'success';
+                $out['message'] = 'Thank you for you contact!';
+            } else {
+                // Email could not be sent
+                $this->getDatabase()->updateContactEmailStatus($submittedContactId, 'failed');
+                $out['status']  = 'error';
+                $out['message'] = $parsedSubmission;
+            }
         }
 
         return $out;
@@ -48,20 +53,8 @@ class Contact
         return file_get_contents('public/index.php');
     }
 
-    public function sendEmail($contactID, $parsedSubmission)
+    public function sendEmail($parsedSubmission)
     {
-        // sanitize form values
-        $out = [];
-
-        foreach ($parsedSubmission as $key => $value) {
-            if ('email' === $key) {
-                // Special email filter
-                $out['email'] = $this->sanitizeEmailValue($value);
-            } else {
-                $out[$key] = $this->sanitizeFieldValue($value);
-            }
-        }
-
         // The Business
         $to = 'ceili@ceilicornelison.com';
         $subject = "New contact form submission!";

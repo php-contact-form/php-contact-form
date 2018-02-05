@@ -32,6 +32,18 @@ class Db
         return $connection;
     }
 
+    public function updateContactEmailStatus($submittedContactId, $status)
+    {
+        $query = sprintf(
+            'UPDATE %s SET email_sent_status = \'%s\' WHERE contact_id = %d);',
+            'contacts',
+            $status,
+            $submittedContactId
+        );
+
+        $result = $this->connection->query($query);
+    }
+
     public function insertData($tableName, $formData)
     {
         $result = $this->connection->query(

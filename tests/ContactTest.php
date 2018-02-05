@@ -151,6 +151,6 @@ class ContactTests extends PHPUnit_Framework_TestCase
 
         $parsedSubmission = $this->contact->parseFormSubmission($goodSubmission);
 
-        $this->assertTrue($this->contact->sendEmail(1, $parsedSubmission));
+        $this->assertTrue($this->contact->sendEmail($parsedSubmission));
     }
 } 
