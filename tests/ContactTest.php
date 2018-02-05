@@ -70,10 +70,19 @@ class ContactTests extends PHPUnit_Framework_TestCase
     public function testMissingFormDataReturnsErrorMessage()
     {
         $validJsonButInvalidFieldValue = json_encode([
-            'name'      => 'Georgie',
-            'email'     => 'georgie@example.com',
-            'message'   => ''
+            [
+                'name'  => 'name',
+                'value' => 'Georgie'
+            ],
+            [
+                'name'  => 'email',
+                'value' => 'georgie@example.com'
+            ],
+            [   'name'  => 'message',
+                'value' => ''
+            ]
         ]);
+
         $response = $this->contact->parseFormSubmission($validJsonButInvalidFieldValue);
         $this->assertEquals($response, "Invalid submission; please try again");
     }
@@ -81,9 +90,17 @@ class ContactTests extends PHPUnit_Framework_TestCase
     public function testGoodFormInputReturnsParsedJSON()
     {
         $validJsonSubmission = json_encode([
-            'name'      => 'Georgie',
-            'email'     => 'georgie@example.com',
-            'message'   => 'Hey there!'
+            [
+                'name'  => 'name',
+                'value' => 'Georgie'
+            ],
+            [
+                'name'  => 'email',
+                'value' => 'georgie@example.com'
+            ],
+            [   'name'  => 'message',
+                'value' => 'Hey there!'
+            ]
         ]);
         $response = $this->contact->parseFormSubmission($validJsonSubmission);
         $this->assertEmpty($this->contact->getValidationErrors());
