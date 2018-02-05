@@ -19,6 +19,30 @@ class Contact
         $this->databaseConnection = new Db($databaseCredentials);
     }
 
+    public function saveContact($formData)
+    {
+        $parsedSubmission = $this->parseFormSubmission($formData);
+
+        $out = [];
+
+        if ("string" === gettype($parsedSubmission)) {
+            $out['status']  = 'error';
+            $out['message'] = $parsedSubmission;
+        } else if ("array" === gettype($parsedSubmission)) {
+            // valid
+            $submittedContactId = $this->getDatabase()->insertData('contacts', $parsedSubmission);
+
+            // success
+
+            $this->sendEmail($submittedContactId, $parsedSubmission);
+
+            $out['status']  = 'success';
+            $out['message'] = 'Thank you for you contact!';
+        }
+
+        return $out;
+    }
+
     public function render()
     {
         return file_get_contents('public/index.php');

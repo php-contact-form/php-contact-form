@@ -9,26 +9,7 @@
 
             $contact = new Contact();
 
-            $parsedSubmission = $contact->parseFormSubmission($formData);
-
-            $out = [];
-
-            if ("string" === gettype($parsedSubmission)) {
-                $out['status']  = 'error';
-                $out['message'] = $parsedSubmission;
-            } else if ("array" === gettype($parsedSubmission)) {
-                // valid
-                $submittedContactId = $contact->getDatabase()->insertData('contacts', $parsedSubmission);
-
-                // success
-
-                $contact->sendEmail($submittedContactId, $parsedSubmission);
-
-                $out['status']  = 'success';
-                $out['message'] = 'Thank you for you contact!';
-            }
-
-            print_r(json_encode($out));
+            print_r(json_encode($contact->saveContact($formData)));
         }
     } else {
 ?>
