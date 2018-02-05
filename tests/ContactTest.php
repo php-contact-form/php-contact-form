@@ -50,4 +50,9 @@ class ContactTests extends PHPUnit_Framework_TestCase
 
         $this->assertEmpty($validationErrors);
     }
+
+    public function testDatabaseConnectionIsInstantiated()
+    {
+        $this->assertInstanceOf('Db', $this->contact->getDatabase());
+    }
 } 

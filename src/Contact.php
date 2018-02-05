@@ -8,16 +8,23 @@ class Contact
     public function __construct()
     {
         $databaseCredentials = [
-            'host'      => '',
-            'username'  => '',
-            'password'  => '',
-            'database'  => ''
+            'host'      => 'localhost',
+            'username'  => 'dealerinspire',
+            'password'  => 'dealerinspire',
+            'database'  => 'dealerinspire'
         ];
+
+        $this->databaseConnection = new Db($databaseCredentials);
     }
 
     public function render()
     {
         return file_get_contents('public/index.php');
+    }
+
+    public function getDatabase()
+    {
+        return $this->databaseConnection;
     }
 
     // Only current validation condition is not null
@@ -34,11 +41,6 @@ class Contact
     public function getValidationErrors()
     {
         return $this->validationErrors;
-    }
-
-    public function connectToDatabase()
-    {
-
     }
 
     private function setValidationErrorOnField($fieldName, $condition)
