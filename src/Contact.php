@@ -3,6 +3,17 @@
 class Contact
 {
     private $validationErrors = [];
+    private $databaseConnection = NULL;
+
+    public function __construct()
+    {
+        $databaseCredentials = [
+            'host'      => '',
+            'username'  => '',
+            'password'  => '',
+            'database'  => ''
+        ];
+    }
 
     public function render()
     {
@@ -23,6 +34,11 @@ class Contact
     public function getValidationErrors()
     {
         return $this->validationErrors;
+    }
+
+    public function connectToDatabase()
+    {
+
     }
 
     private function setValidationErrorOnField($fieldName, $condition)
