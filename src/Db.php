@@ -5,6 +5,12 @@ class Db
     private $connection = NULL;
     private $credentials = [];
 
+    public function __construct($databaseCredentials = [])
+    {
+        $this->credentials  = $databaseCredentials;
+        $this->connection   = $this->createDatabaseConnection();
+    }
+
     public function createDatabaseConnection()
     {
         if (empty($this->credentials)) {
@@ -26,9 +32,23 @@ class Db
         return true;
     }
 
-    public function __construct($databaseCredentials = [])
+    public function insertData($tableName, $formData)
     {
-        $this->credentials  = $databaseCredentials;
-        $this->connection   = $this->createDatabaseConnection();
+        $query = sprintf(
+            'INSERT INTO %s (%s) VALUES (%s)',
+            $this->getColumnNames($formData),
+            $this->getFieldValues($formData)
+        );
+    }
+
+    public function getColumnNames($data)
+    {
+        $out = [];
+
+        foreach ($data as $key => $value) {
+            $out[] = $key;
+        }
+
+        return $out;
     }
 }

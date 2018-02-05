@@ -54,4 +54,19 @@ class DbTests extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($db->createDatabaseConnection());
     }
+
+    public function testCanDetermineCorrectColumnNames()
+    {
+        $testingData = json_decode(json_encode([
+            'column_1' => 'value_1',
+            'column_2' => 'value_2',
+            'column_3' => 'value_3'
+        ]));
+
+        $columnNames = $this->db->getColumnNames($testingData);
+
+        $this->assertEquals($columnNames[0], 'column_1');
+        $this->assertEquals($columnNames[1], 'column_2');
+        $this->assertEquals($columnNames[2], 'column_3');
+    }
 }
