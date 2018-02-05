@@ -4,6 +4,6 @@ class Contact
 {
     public function render()
     {
-        // noop
+        return file_get_contents('public/index.php');
     }
 }
