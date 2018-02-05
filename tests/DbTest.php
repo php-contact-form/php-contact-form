@@ -103,7 +103,7 @@ class DbTests extends PHPUnit_Framework_TestCase
     public function testContactCanBeGotten()
     {
         $this->markTestIncomplete(
-            'Implement tests on getContact() implementation'
+            'Implement tests on DB mocking'
         );
     }
 }

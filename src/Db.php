@@ -34,7 +34,12 @@ class Db
 
     public function getContact($id)
     {
-        // @TODO
+        $query = sprintf(
+            'SELECT name, email, phone, message FROM contacts WHERE contact_id = %d',
+            $id
+        );
+
+        return $this->connection->query($query)->fetch_assoc();
     }
 
     public function updateContactEmailStatus($submittedContactId, $status)
