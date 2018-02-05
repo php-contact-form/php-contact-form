@@ -77,14 +77,6 @@ class DbTests extends PHPUnit_Framework_TestCase
         $this->assertEquals($values[2], 'value_3');
     }
 
-    public function testGetInsertQueryComposesCorrectString()
-    {
-        $query = $this->db->getInsertQuery('tablename', (object) $this->testingData);
-        $expected = "INSERT INTO tablename (column_1, column_2, column_3) VALUES ('value_1', 'value_2', 'value_3');";
-
-        $this->assertEquals($query, $expected);
-    }
-
     public function testValidDataCanBeSuccessfullyInserted()
     {
         $validData = [
@@ -95,7 +87,7 @@ class DbTests extends PHPUnit_Framework_TestCase
             'email_sent_status' => 'sent'
         ];
 
-        $result = $this->db->insertData('contacts', (object) $validData);
+        $result = $this->db->insertContact((object) $validData);
 
         $this->assertGreaterThan(0, $result);
     }

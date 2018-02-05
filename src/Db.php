@@ -54,25 +54,17 @@ class Db
         $result = $this->connection->query($query);
     }
 
-    public function insertData($tableName, $formData)
-    {
-        $result = $this->connection->query(
-            $this->getInsertQuery($tableName, $formData)
-        );
-
-        return $this->connection->insert_id;
-    }
-
-    public function getInsertQuery($tableName, $formData)
+    public function insertContact($formData)
     {
         $query = sprintf(
-            'INSERT INTO %s (%s) VALUES (\'%s\');',
-            $tableName,
+            'INSERT INTO contacts (%s) VALUES (\'%s\');',
             implode(', ', $this->getColumnNames($formData)),
             implode('\', \'', $this->getValues($formData))
         );
 
-        return $query;
+        $result = $this->connection->query($query);
+
+        return $this->connection->insert_id;
     }
 
     public function getColumnNames($data)

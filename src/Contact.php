@@ -78,7 +78,7 @@ class Contact
 
     private function saveFormSubmission($data)
     {
-        return $this->getDatabase()->insertData('contacts', $data);
+        return $this->getDatabase()->insertContact($data);
     }
 
     private function sendContactFormEmail($id)
