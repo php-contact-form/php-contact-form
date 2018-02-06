@@ -97,7 +97,7 @@ class Contact
                 if ($this->_sendContactFormEmail($formSubmissionID)) {
                     // sent
                     $out['status']  = 'success';
-                    $out['message'] = 'Thank you for you contact!';
+                    $out['message'] = 'Thank you for your contact!';
 
                     return $out;
                 }
