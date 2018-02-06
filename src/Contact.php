@@ -11,22 +11,13 @@
  * the PHP License and are unable to obtain it through the web, please
  * send a note to license@php.net so we can mail you a copy immediately.
  *
- * @category   CategoryName
- * @package    PackageName
- * @author     Original Author <author@example.com>
- * @author     Another Author <another@example.com>
- * @copyright  1997-2005 The PHP Group
- * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    SVN: $Id$
- * @link       http://pear.php.net/package/PackageName
- * @see        NetOther, Net_Sample::Net_Sample()
- * @since      File available since Release 1.2.0
- * @deprecated File deprecated in Release 2.0.0
- */
-
-/**
- * This is a "Docblock Comment," also known as a "docblock."  The class'
- * docblock, below, contains a complete description of how to write these.
+ * @category ContactForm
+ * @package  ContactForm
+ * @author   Ceili Cornelison <ceili@ceilicornelison.com>
+ * @license  http://www.php.net/license/3_01.txt  PHP License 3.01
+ * @version  GIT: <git_id>
+ * @link     http://dealerinspire.local:8080/
+ * @since    File available since Release 1.0.0
  */
 
 require dirname(__FILE__) . '/../src/Db.php';
@@ -34,15 +25,13 @@ require dirname(__FILE__) . '/../src/Db.php';
 /**
  * Contact Form class for saving & sending form contacts
  *
- * @category   ContactForm
- * @package    ContactForm
- * @author     Ceili Cornelison <ceili@ceilicornelison.com>
- * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    Release: @package_version@
- * @link       http://pear.php.net/package/PackageName
- * @see        NetOther, Net_Sample::Net_Sample()
- * @since      Class available since Release 1.2.0
- * @deprecated Class deprecated in Release 2.0.0
+ * @category ContactForm
+ * @package  ContactForm
+ * @author   Ceili Cornelison <ceili@ceilicornelison.com>
+ * @license  http://www.php.net/license/3_01.txt  PHP License 3.01
+ * @version  Release: @package_version@
+ * @link     http://dealerinspire.local:8080/
+ * @since    Class available since Release 1.0.0
  */
 
 class Contact
