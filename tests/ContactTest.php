@@ -4,62 +4,63 @@ require dirname(__FILE__) . '/../src/Contact.php';
  
 class ContactTests extends PHPUnit_Framework_TestCase
 {
-    private $contact;
+    private $_contact;
  
     protected function setUp()
     {
-        $this->contact = new Contact();
+        $this->_contact = new Contact();
     }
  
     protected function tearDown()
     {
-        $this->contact = NULL;
+        $this->_contact = null;
     }
  
     public function testValidationErrorsInitedAsBoolFalse()
     {
-        $validationError = $this->contact->hasValidationError();
+        $validationError = $this->_contact->hasValidationError();
 
         $this->assertFalse($validationError);
     }
 
     public function testNullFieldValueIsProperlyValidated()
     {
-        $this->contact->validateField('name', 'NotNull', '');
+        $this->_contact->validateField('name', 'NotNull', '');
 
-        $validationError = $this->contact->hasValidationError();
+        $validationError = $this->_contact->hasValidationError();
 
         $this->assertTrue($validationError);
     }
 
     public function testNotNullFieldValueIsProperlyValidated()
     {
-        $this->contact->validateField('name', 'NotNull', 'George');
+        $this->_contact->validateField('name', 'NotNull', 'George');
 
-        $validationError = $this->contact->hasValidationError();
+        $validationError = $this->_contact->hasValidationError();
 
         $this->assertFalse($validationError);
     }
 
     public function testDatabaseConnectionIsInstantiated()
     {
-        $this->assertInstanceOf('Db', $this->contact->getDatabase());
+        $this->assertInstanceOf('Db', $this->_contact->getDatabase());
     }
 
     public function testInvalidFormDataReturnsErrorMessage()
     {
         $emptyInput = '';
-        $response = $this->contact->parseFormSubmission($emptyInput);
+        $response = $this->_contact->parseFormSubmission($emptyInput);
         $this->assertFalse($response);
 
         $nonJsonInput = 'Not even JSON';
-        $response = $this->contact->parseFormSubmission($nonJsonInput);
+        $response = $this->_contact->parseFormSubmission($nonJsonInput);
         $this->assertFalse($response);
     }
 
     public function testMissingFormDataReturnsErrorMessage()
     {
-        $validJsonButInvalidFieldValue = json_encode([
+        $validJsonButInvalidFieldValue = json_encode(
+            [
             [
                 'name'  => 'name',
                 'value' => 'Georgie'
@@ -71,15 +72,19 @@ class ContactTests extends PHPUnit_Framework_TestCase
             [   'name'  => 'message',
                 'value' => ''
             ]
-        ]);
+            ]
+        );
 
-        $response = $this->contact->parseFormSubmission($validJsonButInvalidFieldValue);
+        $response = $this->_contact->parseFormSubmission(
+            $validJsonButInvalidFieldValue
+        );
         $this->assertFalse($response);
     }
 
     public function testGoodFormInputReturnsParsedJSON()
     {
-        $validJsonSubmission = json_encode([
+        $validJsonSubmission = json_encode(
+            [
             [
                 'name'  => 'name',
                 'value' => 'Georgie'
@@ -91,22 +96,25 @@ class ContactTests extends PHPUnit_Framework_TestCase
             [   'name'  => 'message',
                 'value' => 'Hey there!'
             ]
-        ]);
-        $response = $this->contact->parseFormSubmission($validJsonSubmission);
-        $this->assertFalse($this->contact->hasValidationError());
+            ]
+        );
+        $response = $this->_contact->parseFormSubmission($validJsonSubmission);
+        $this->assertFalse($this->_contact->hasValidationError());
     }
 
     public function testFormDataProperlySanitized()
     {
         $emailValue = new stdClass;
         $emailValue->value  = 'georgie@example.com';
-        $sanitizedEmail = $this->contact->sanitizeFieldValue($emailValue->value);
+        $sanitizedEmail = $this->_contact->sanitizeFieldValue($emailValue->value);
 
         $this->assertEquals('georgie@example.com', $sanitizedEmail);
 
         $messageValue = new stdClass;
         $messageValue->value  = 'It\'s a "Message" contaning spècial çhars!';
-        $sanitizedMessage = $this->contact->sanitizeFieldValue($messageValue->value);
+        $sanitizedMessage = $this->_contact->sanitizeFieldValue(
+            $messageValue->value
+        );
 
         $this->assertEquals(
             "It\'s a &quot;Message&quot; contaning sp&egrave;cial &ccedil;hars!",
@@ -119,13 +127,21 @@ class ContactTests extends PHPUnit_Framework_TestCase
         $goodEmail  = 'georgie@example.com';
         $badEmail   = '(georgie)@example.com,';
 
-        $this->assertEquals($goodEmail, $this->contact->sanitizeEmailValue($goodEmail));
-        $this->assertEquals($goodEmail, $this->contact->sanitizeEmailValue($badEmail));
+        $this->assertEquals(
+            $goodEmail,
+            $this->_contact->sanitizeEmailValue($goodEmail)
+        );
+
+        $this->assertEquals(
+            $goodEmail,
+            $this->_contact->sanitizeEmailValue($badEmail)
+        );
     }
 
     public function testEmailShouldReturnStatus()
     {
-        $goodSubmission = json_encode([
+        $goodSubmission = json_encode(
+            [
             [
                 'name'  => 'name',
                 'value' => 'Georgie'
@@ -137,10 +153,11 @@ class ContactTests extends PHPUnit_Framework_TestCase
             [   'name'  => 'message',
                 'value' => 'Hey there!'
             ]
-        ]);
+            ]
+        );
 
-        $parsedSubmission = $this->contact->parseFormSubmission($goodSubmission);
+        $parsedSubmission = $this->_contact->parseFormSubmission($goodSubmission);
 
-        $this->assertTrue($this->contact->sendEmail($parsedSubmission));
+        $this->assertTrue($this->_contact->sendEmail($parsedSubmission));
     }
 } 
